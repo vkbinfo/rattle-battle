@@ -1,4 +1,4 @@
-const { SNAKE } = require('./gameConstants');
+const { SNAKE } = require('./constants');
 
 class Snake {
   /**

@@ -1,4 +1,4 @@
-const { SNAKE } = require('../Controllers/GameControllers/gameConstants');
+const { SNAKE } = require('../Controllers/GameControllers/constants');
 const { Snake } = require('../Controllers/GameControllers/snake');
 
 describe('Test Snake Class', () => {
