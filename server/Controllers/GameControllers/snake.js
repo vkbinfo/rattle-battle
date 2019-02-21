@@ -3,22 +3,22 @@ const { SNAKE } = require('./gameConstants');
 class Snake {
   /**
    * @param  {string} playerId
-   * @param  {Object} initialProperty initial values for snake body and motion.
+   * @param  {Object} initialProperties initial values for snake body and motion.
    * @param  {Function} eatFood Function to check that snake's next movement will be eating food.
    * @param  {Array} rivalBody Rival snake's body coordinates
    * @param  {number} intervalNumber
    */
-  constructor(playerId, initialProperty, eatFood, rivalBody, intervalNumber) {
+  constructor(playerId, initialProperties, eatFood, rivalBody, intervalNumber) {
     this.ownerId = playerId;
-    this.head = { x: initialProperty.position.x, y: initialProperty.position.y };
-    this.direction = initialProperty.direction;
-    this.velocity = initialProperty.velocity;
-    this.color = initialProperty.color;
-    this.length = initialProperty.length;
+    this.head = { x: initialProperties.position.x, y: initialProperties.position.y };
+    this.direction = initialProperties.direction;
+    this.velocity = initialProperties.velocity;
+    this.color = initialProperties.color;
+    this.length = initialProperties.length;
     this.eatFood = eatFood;
     this.rivalBody = rivalBody;
     this.interval = intervalNumber; // interval variable, if snake collides we will clear this interval
-    this.life = SNAKE.life;
+    this.life = SNAKE.LIFE;
     this.lost = false;
     this.xAxisVelocity = 0; // the x axis movement of snake in each interval
     this.yAxisVelocity = 0; // the y axis movement of snake in each interval
@@ -82,7 +82,7 @@ class Snake {
   }
 
   /**
-   * Pushing new coordinates to body coordinates array of snake
+   * Pushing new coordinates on snake movement to bodyCoordinates array of snake
    */
   pushCoordinates() {
     this.bodyCoordinates.push({
