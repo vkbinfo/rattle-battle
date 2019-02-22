@@ -113,6 +113,79 @@ class Snake {
     // @TODO: implement the collision logic with rival snake.
     return false;
   }
+
+changeDirection(key) {
+    switch (key) {
+      case 'ArrowLeft': {
+        if (this.direction === 'left' || this.direction === 'right') {
+          break;
+        }
+        if (this.previousDirection === 'right' && this.previousDirection !== 'left') {
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();// we are doing this check so snack does not collpase in itself;
+        }
+        this.yAxisVelocity = 0;
+        this.xAxisVelocity = -2;
+        this.previousDirection = this.direction;
+        this.direction = 'left';
+        break;
+      }
+      case "ArrowRight": {
+        if (this.direction === 'left' || this.direction === 'right') {
+          break;
+        }
+        if (this.previousDirection === 'left' && this.previousDirection !== 'right') {
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep(); // we are doing this check so snack does not collpase in itself;
+        }
+        this.yAxisVelocity = 0;
+        this.xAxisVelocity = +2;
+        this.previousDirection = this.direction;
+        this.direction = 'right';
+        break;
+      }
+      case "ArrowUp": {
+        if (this.direction === 'up' || this.direction === 'down') {
+          break;
+        }
+        if (this.previousDirection === 'down') {
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep(); // we are doing this check so snack does not collpase in itself;
+        }
+        this.xAxisVelocity = 0;
+        this.yAxisVelocity = -2;
+        this.previousDirection = this.direction;
+        this.direction = 'up';
+        break;
+      }
+      case "ArrowDown": {
+        if (this.direction === 'up' || this.direction === 'down') {
+          break;
+        }
+        if (this.previousDirection === 'up') {
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();
+          this.moveSnakeOneStep();// we are doing this check so snack does not collpase in itself;
+        }
+        this.xAxisVelocity = 0;
+        this.yAxisVelocity = +2;
+        this.previousDirection = this.direction;
+        this.direction = 'down';
+        break;
+      }
+    }
+  }
 }
 
 module.exports = {

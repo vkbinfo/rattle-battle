@@ -47,11 +47,12 @@ class Game {
     this.firstSnake.moveSnakeOneStep();
     return this.firstSnake.bodyCoordinates;
   }
+
+  changeDirection(info){
+    this.firstSnake.changeDirection(info.key);
+  }
 }
 
-const game = new Game('zarathustra');
-console.log(game.moveSnakes());
-
-// module.exports = {
-//   Game,
-// };
+module.exports = {
+  Game,
+};
