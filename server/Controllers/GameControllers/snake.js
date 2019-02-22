@@ -53,7 +53,9 @@ class Snake {
     }
     // populating the snake body coordinates of snake
     for (let x = 0; x < this.length; x += 1) {
-      this.moveSnakeOneStep();
+      this.head.x += this.xAxisVelocity; 
+      this.head.y += this.yAxisVelocity;
+      this.pushCoordinates();
     }
   }
 
@@ -75,6 +77,7 @@ class Snake {
     } else if (this.hasCollidedWithItself()
       || this.hasCollidedWithRival()) {
       this.lost = true;
+      clearInterval(this.interval);
       // @TODO: emit a game mechanics event for game lost.
     } else {
       this.pushCoordinates();
@@ -106,6 +109,24 @@ class Snake {
    */
   hasCollidedWithItself() {
     // @TODO: implement the collision logic with itself.
+    if (this.bodyCoordinates.length > this.length - 1) {
+      const {x, y} = this.head;
+      let collided = this.bodyCoordinates.slice(0, this.length - 8).find((collisionPoint, index) => {
+        if (
+          (x > collisionPoint.x - 10) && (x < collisionPoint.x + 10) &&
+          (y > collisionPoint.y - 10) && (y < collisionPoint.y + 10)
+        ) {
+          return true;
+        }
+        return false;
+      })
+      if (collided) {
+        console.log('collided', collided);
+        console.log('Collided with itself');
+        return true;
+      }
+
+    }
     return false;
   }
 
