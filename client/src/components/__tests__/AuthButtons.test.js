@@ -3,45 +3,49 @@ import { mount } from 'enzyme';
 import AuthButtons from '../AuthButtons';
 
 describe('<AuthButtons />', () => {
-  test('should contain login button and signup button', () => {
-    const toggleModal = jest.fn();
-    const wrapper = mount(<AuthButtons toggleModal={toggleModal} />);
-    const buttons = wrapper.find('button');
-
-    expect(
-      buttons
-        .at(0)
-        .text()
-        .toLowerCase(),
-    ).toContain('signup');
-
-    expect(
-      buttons
-        .at(1)
-        .text()
-        .toLowerCase(),
-    ).toContain('login');
+  test('should show logout button if loggedInUser is passed in provider', () => {
+    // const user = { id: '123', username: 'nitin' };
+    // const wrapper = mount(<Navbar {...requiredProps} loggedInUser={user} />);
+    // expect(wrapper.find('button').length).toBe(1);
+    // expect(wrapper.find('button').text()).toBe('Logout');
   });
 
-  test('should open correct modal on clicking sign up', () => {
-    const toggleModal = jest.fn();
-    const wrapper = mount(<AuthButtons toggleModal={toggleModal} />);
-    const buttons = wrapper.find('button');
-    const loginButton = buttons.at(0);
-
-    loginButton.simulate('click');
-
-    expect(toggleModal).toHaveBeenCalledWith('showSignupModal');
+  test('should show auth buttons user is null', () => {
+    //   const wrapper = mount(<Navbar {...requiredProps} />);
+    //   const buttons = wrapper.find('button');
+    //   expect(buttons.length).toBe(2);
+    //   expect(
+    //     buttons
+    //       .at(0)
+    //       .text()
+    //       .toLowerCase(),
+    //   ).toContain('signup');
+    //   expect(
+    //     buttons
+    //       .at(1)
+    //       .text()
+    //       .toLowerCase(),
+    //   ).toContain('login');
+    // });
   });
 
-  test('should open correct modal on clicking login', () => {
-    const toggleModal = jest.fn();
-    const wrapper = mount(<AuthButtons toggleModal={toggleModal} />);
+  test('should show <SignupModal /> form after clicking signup button', () => {
+    const wrapper = mount(<AuthButtons />);
     const buttons = wrapper.find('button');
-    const signupButton = buttons.at(1);
+    const signupBtn = buttons.at(0);
+    expect(wrapper.find('SignupModal').length).toBe(1);
+    expect(wrapper.find('SignupModal').props().show).toBe(false);
+    signupBtn.simulate('click');
+    expect(wrapper.find('SignupModal').props().show).toBe(true);
+  });
 
-    signupButton.simulate('click');
-
-    expect(toggleModal).toHaveBeenCalledWith('showLoginModal');
+  test('should show <LoginModal /> form after clicking login button', () => {
+    const wrapper = mount(<AuthButtons />);
+    const buttons = wrapper.find('button');
+    const loginbtn = buttons.at(1);
+    expect(wrapper.find('LoginModal').length).toBe(1);
+    expect(wrapper.find('LoginModal').props().show).toBe(false);
+    loginbtn.simulate('click');
+    expect(wrapper.find('LoginModal').props().show).toBe(true);
   });
 });

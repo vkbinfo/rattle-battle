@@ -5,8 +5,9 @@ import { testInputFieldsIn } from './testUtils';
 import SignupModal from '../SignupModal';
 
 describe('<SignupModal/> form', () => {
-  const toggleModal = jest.fn();
-  const wrapper = mount(<SignupModal show toggleModal={toggleModal} />);
+  const closeModal = jest.fn();
+  const setUser = jest.fn();
+  const wrapper = mount(<SignupModal show closeModal={closeModal} setUser={setUser} />);
 
   test('should return <FormDialog /> component', () => {
     expect(wrapper.exists('FormDialog')).toBe(true);
@@ -22,8 +23,9 @@ describe('<SignupModal/> form', () => {
 });
 
 describe('input fields in form', () => {
-  const toggleModal = jest.fn();
-  const wrapper = mount(<SignupModal show toggleModal={toggleModal} />);
+  const closeModal = jest.fn();
+  const setUser = jest.fn();
+  const wrapper = mount(<SignupModal show closeModal={closeModal} setUser={setUser} />);
   const inputFields = wrapper.find('input');
   const labels = wrapper.find('label');
 
@@ -69,18 +71,19 @@ describe('input fields in form', () => {
 });
 
 describe('<SignupModal /> contains cancel and submit button', () => {
-  const toggleModal = jest.fn();
-  const wrapper = mount(<SignupModal show toggleModal={toggleModal} />);
+  const closeModal = jest.fn();
+  const setUser = jest.fn();
+  const wrapper = mount(<SignupModal show closeModal={closeModal} setUser={setUser} />);
   const buttons = wrapper.find('button');
 
   test('should contain two buttons', () => {
     expect(buttons.length).toBe(2);
   });
 
-  test('should close modal by calling toggleModal on clicking cancel button', () => {
+  test('should close modal by calling closeModal on clicking cancel button', () => {
     const cancelBtn = wrapper.find('button[data-test="cancel"]');
     cancelBtn.simulate('click');
 
-    expect(toggleModal).toHaveBeenCalledWith('showSignupModal');
+    expect(closeModal).toHaveBeenCalled();
   });
 });

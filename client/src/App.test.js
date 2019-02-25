@@ -6,9 +6,4 @@ describe('<App/>', () => {
   test('renders without crashing', () => {
     shallow(<App />);
   });
-
-  test('should contain loggedInUser state', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.state().loggedInUser).toBeDefined();
-  });
 });
