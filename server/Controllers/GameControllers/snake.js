@@ -53,7 +53,7 @@ class Snake {
     }
     // populating the snake body coordinates of snake
     for (let x = 0; x < this.length; x += 1) {
-      this.head.x += this.xAxisVelocity; 
+      this.head.x += this.xAxisVelocity;
       this.head.y += this.yAxisVelocity;
       this.pushCoordinates();
     }
@@ -110,32 +110,53 @@ class Snake {
   hasCollidedWithItself() {
     // @TODO: implement the collision logic with itself.
     if (this.bodyCoordinates.length > this.length - 1) {
-      const {x, y} = this.head;
-      let collided = this.bodyCoordinates.slice(0, this.length - 8).find((collisionPoint, index) => {
+      const { x, y } = this.head;
+      const collided = this.bodyCoordinates.slice(0, this.length - 8).find((collisionPoint, index) => {
         if (
-          (x > collisionPoint.x - 10) && (x < collisionPoint.x + 10) &&
-          (y > collisionPoint.y - 10) && (y < collisionPoint.y + 10)
+          (x > collisionPoint.x - 8) && (x < collisionPoint.x + 8) &&
+          (y > collisionPoint.y - 8) && (y < collisionPoint.y + 8)
         ) {
+          console.log('body coordinate of the collision');
+          this.bodyCoordinates.slice(0, this.length - 8).forEach((element) => console.log(element));
+          console.log('collision point ', collisionPoint);
+          console.log('head', x, y);
           return true;
         }
         return false;
-      })
+      });
       if (collided) {
-        console.log('collided', collided);
-        console.log('Collided with itself');
         return true;
       }
-
     }
     return false;
   }
 
   hasCollidedWithRival() {
-    // @TODO: implement the collision logic with rival snake.
+    // @TODO: implement the collision logic with rival snake and with own body in one function.
+    const { x, y } = this.head;
+    const collided = this.rivalBody.find((collisionPoint, index) => {
+      if (
+        (x > collisionPoint.x - 10) && (x < collisionPoint.x + 10) &&
+        (y > collisionPoint.y - 10) && (y < collisionPoint.y + 10)
+      ) {
+        // this.coordinates.forEach((element) => console.log(element.x, element.y));
+        console.log('head', x, y);
+        console.log('collided index', index);
+        console.log('collided point', collisionPoint.x, collisionPoint.y);
+        return true;
+      }
+      return false;
+    })
+    if (collided) {
+      console.log('collided', collided);
+      console.log('Collided with python');
+      return true;
+    }
     return false;
   }
 
-changeDirection(key) {
+  changeDirection(key) {
+    // eslint-disable-next-line default-case
     switch (key) {
       case 'ArrowLeft': {
         if (this.direction === 'left' || this.direction === 'right') {
@@ -146,7 +167,8 @@ changeDirection(key) {
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
-          this.moveSnakeOneStep();// we are doing this check so snack does not collpase in itself;
+          this.moveSnakeOneStep();
+          // we are doing this check so snack does not collpase in itself;
         }
         this.yAxisVelocity = 0;
         this.xAxisVelocity = -2;
@@ -154,7 +176,7 @@ changeDirection(key) {
         this.direction = 'left';
         break;
       }
-      case "ArrowRight": {
+      case 'ArrowRight': {
         if (this.direction === 'left' || this.direction === 'right') {
           break;
         }
@@ -163,7 +185,8 @@ changeDirection(key) {
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
-          this.moveSnakeOneStep(); // we are doing this check so snack does not collpase in itself;
+          this.moveSnakeOneStep();
+          // we are doing this check so snack does not collpase in itself;
         }
         this.yAxisVelocity = 0;
         this.xAxisVelocity = +2;
@@ -171,16 +194,17 @@ changeDirection(key) {
         this.direction = 'right';
         break;
       }
-      case "ArrowUp": {
+      case 'ArrowUp': {
         if (this.direction === 'up' || this.direction === 'down') {
           break;
         }
-        if (this.previousDirection === 'down') {
+        if (this.previousDirection === 'down' && this.previousDirection !== 'up') {
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
-          this.moveSnakeOneStep(); // we are doing this check so snack does not collpase in itself;
+          this.moveSnakeOneStep();
+          // we are doing this check so snack does not collpase in itself;
         }
         this.xAxisVelocity = 0;
         this.yAxisVelocity = -2;
@@ -188,11 +212,11 @@ changeDirection(key) {
         this.direction = 'up';
         break;
       }
-      case "ArrowDown": {
+      case 'ArrowDown': {
         if (this.direction === 'up' || this.direction === 'down') {
           break;
         }
-        if (this.previousDirection === 'up') {
+        if (this.previousDirection === 'up' && this.previousDirection !== 'down') {
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();
           this.moveSnakeOneStep();

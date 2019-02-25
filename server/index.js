@@ -21,12 +21,13 @@ const io = socketIo(server);
 io.sockets.on('connection', (socket) => {
   socket.on('send_direction', () => {
     const game = new Game('zarathustra');
+    game.joinGame('Nitzsche');
     // socket.emit('stepChange', game.firstSnake.bodyCoordinates);
-    const interval  = setInterval(() => {
-       socket.emit('stepChange', game.moveSnakes())}
-       , 30);
+    const interval = setInterval(() => {
+      socket.emit('stepChange', game.moveSnakes());
+    }, 30);
     game.setIntervalNumber(interval);
-  socket.on('keyPress', game.changeDirection.bind(game))
+    socket.on('keyPress', game.changeDirection.bind(game))
   });
 });
 module.exports = server;
