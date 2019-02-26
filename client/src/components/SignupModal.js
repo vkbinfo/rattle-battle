@@ -9,7 +9,10 @@ import UserContext from '../utils/user-context';
 const SignupModal = ({ closeModal, show }) => {
   const { login } = useContext(UserContext);
 
-  const signupSuccessful = (user) => {
+  const handleSuccess = (response) => {
+    const token = response.headers['x-auth-token'];
+    const user = response.data;
+    localStorage.setItem('token', token);
     login(user);
   };
 
@@ -20,7 +23,7 @@ const SignupModal = ({ closeModal, show }) => {
     repeatPasswordState,
     handleSubmit,
     formError,
-  } = useSignupForm(signupSuccessful);
+  } = useSignupForm(handleSuccess);
 
   return (
     <FormDialog title="Sign Up" show={show} closeModal={closeModal} handleSubmit={handleSubmit}>

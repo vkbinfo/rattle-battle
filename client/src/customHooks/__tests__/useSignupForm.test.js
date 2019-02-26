@@ -1,14 +1,17 @@
 import { act } from 'react-dom/test-utils';
 import { testHook } from './testUtils';
 import useSignupForm from '../useSignupForm';
+import { signupAPI } from '../../utils/auth-api';
 
-let done;
+let handleSuccess;
 let formState;
+jest.mock('../../utils/auth-api');
 
 beforeEach(() => {
-  done = jest.fn();
+  handleSuccess = jest.fn();
+  signupAPI.mockClear();
   /* eslint-disable no-return-assign */
-  testHook(() => (formState = useSignupForm(done)));
+  testHook(() => (formState = useSignupForm(handleSuccess)));
 });
 
 const expectedTextFieldState = { error: false, helperText: '', value: '' };
@@ -53,13 +56,14 @@ describe('useSignupForm hook', () => {
 });
 
 describe('handleSubmit on useSignupForm hook', () => {
-  test('should call passed `done` function on `handleSubmit` if formdata is correct', () => {
+  test('should call signupAPI on `handleSubmit` if formdata is correct', () => {
     const email = 'nitin@nitin.com';
     const username = 'nitin';
     const password = '1234';
     const repeatPassword = '1234';
     const event = { preventDefault: jest.fn() };
 
+    signupAPI.mockImplementation(user => Promise.resolve(user));
     act(() => {
       formState.emailState.onChange({ target: { value: email } });
       formState.usernameState.onChange({ target: { value: username } });
@@ -72,7 +76,7 @@ describe('handleSubmit on useSignupForm hook', () => {
     });
 
     expect(event.preventDefault).toHaveBeenCalled();
-    expect(done).toHaveBeenCalled();
+    expect(signupAPI).toHaveBeenCalledWith({ username, password, email });
   });
 
   describe('Form submission errors', () => {
@@ -97,7 +101,7 @@ describe('handleSubmit on useSignupForm hook', () => {
       expect(event.preventDefault).toHaveBeenCalled();
       expect(formState.repeatPasswordState.error).toBe(true);
       expect(formState.repeatPasswordState.helperText).toBe('Passwords do not match');
-      expect(done).not.toHaveBeenCalled();
+      expect(signupAPI).not.toHaveBeenCalled();
     });
   });
 });

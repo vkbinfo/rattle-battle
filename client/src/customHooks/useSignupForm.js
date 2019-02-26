@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import useFormTextField from './useFormTextField';
 import { signupAPI } from '../utils/auth-api';
+import handleErrors from './handleFormErrors';
 
-export default (done) => {
+export default (handleSuccess) => {
   const initialState = { error: false, errorMsg: '', value: '' };
 
   const [emailState, setEmailError] = useFormTextField(initialState);
@@ -16,6 +17,7 @@ export default (done) => {
     username: setUsernameError,
     email: setEmailError,
     repeatPassword: setRepeatPasswordError,
+    form: setFormError,
   };
 
   const runFormValidation = (formData) => {
@@ -27,33 +29,6 @@ export default (done) => {
     }
 
     return validationFail;
-  };
-
-  const handleErrors = (err) => {
-    /**
-     * Why the if statements?
-     * Sometimes the server sends an array of errors and sometimes it sends a string.
-     * We've got to handle both!
-     */
-    const { errors } = err;
-    if (Array.isArray(errors)) {
-      errors.forEach((error) => {
-        setError[error.param](error.msg);
-      });
-    } else if (typeof errors === 'string') {
-      setFormError(errors);
-    } else {
-      // just in case
-      setFormError("Something wen't wrong. Please contact the developer.");
-      console.log(err); // eslint-disable-line no-console
-    }
-  };
-
-  const handleSuccess = (response) => {
-    const token = response.headers['x-auth-token'];
-    const user = response.data;
-    localStorage.setItem('token', token);
-    done(user);
   };
 
   const handleSubmit = (event) => {
@@ -85,7 +60,7 @@ export default (done) => {
 
     signupAPI(user)
       .then(handleSuccess)
-      .catch(handleErrors);
+      .catch(err => handleErrors(err, setError));
   };
 
   return {
