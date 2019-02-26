@@ -51,8 +51,8 @@ class Game {
     let x;
     let y;
     while (foodInSnakebody) {
-      x = Math.round(Math.random() * 1400);
-      y = Math.round(Math.random() * 700);
+      x = Math.round(Math.random() * 600);
+      y = Math.round(Math.random() * 600);
       // eslint-disable-next-line no-loop-func
       foodInSnakebody = firstSnakeBody.find(position => x === position.x && y === position.y);
     }
@@ -73,14 +73,16 @@ class Game {
   }
 
   moveSnakes() {
-    // this.firstSnake.moveSnakeOneStep();
+    this.firstSnake.moveSnakeOneStep();
     this.secondSnake.moveSnakeOneStep();
     return { snakeBodies: [...this.firstSnake.bodyCoordinates, ...this.secondSnake.bodyCoordinates], food: this.food };
   }
 
   changeDirection(info) {
-    // this.firstSnake.changeDirection(info.key);
-    this.secondSnake.changeDirection(info.key);
+    if (info.player === 0) {
+      return this.firstSnake.changeDirection(info.key);
+    }
+    return this.secondSnake.changeDirection(info.key);
   }
 }
 

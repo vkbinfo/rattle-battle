@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "gameserver",
   "version": "1.0.0",
   "description": "Backend for rattle-battle",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "lint": "npx eslint index.js",
     "test": "jest"
   },
-  "author": "Jithin Tom <jithintom1@gmail.com>,",
+  "author": "Jithin Tom <jithintom1@gmail.com>,Vikash Kumar Bijarnia <vkb.info@gmail.com>",
   "license": "MIT",
   "private": false,
   "dependencies": {
